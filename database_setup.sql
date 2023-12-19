@@ -29,3 +29,18 @@ CREATE TABLE IF NOT EXISTS enrollments (
     FOREIGN KEY (student_id) REFERENCES students(student_id),
     FOREIGN KEY (course_id) REFERENCES courses(course_id)
 );
+
+INSERT INTO teachers (name, specialization) VALUES 
+('John Doe', 'Mathematics'),
+('Jane Smith', 'Physics'),
+('Emily Johnson', 'Chemistry'),
+('Mike Brown', 'History'),
+('Sarah Davis', 'English Literature');
+
+
+INSERT INTO courses (title, description, teacher_id) VALUES 
+('Introduction to Mathematics', 'This course covers fundamental mathematical concepts.', 1),
+('Fundamentals of Physics', 'An introductory course on the principles of physics.', 2),
+('Basics of Chemistry', 'Explore the basics of chemical principles and reactions.', 3),
+('World History', 'A comprehensive overview of world history.', 4),
+('English Literature', 'Study of classic and contemporary works in English literature.', 5);

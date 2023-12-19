@@ -2,21 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Forum</title>
+    <title>Home</title>
 </head>
 <body>
-    <h1>Forum</h1>
-    <form action="/add_post" method="post">
-        <input type="text" name="title" placeholder="Title">
-        <textarea name="content" placeholder="Content"></textarea>
-        <button type="submit">Post</button>
-    </form>
-
-    {% for post in posts %}
-        <div>
-            <h2>{{ post.title }}</h2>
-            <p>{{ post.content }}</p>
-        </div>
-    {% endfor %}
+    <h1>Welcome to the Home Page</h1>
+    <div>{{ graph_html|safe }}</div>
+    <a href="{{ url_for('courses') }}">View Courses</a>
+    <a href="{{ url_for('add_student') }}">Add Student</a>
 </body>
 </html>

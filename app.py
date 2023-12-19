@@ -3,6 +3,8 @@ import mysql.connector
 import plotly.express as px
 import pandas as pd
 import configparser
+import plotly.graph_objects as go
+
 
 app = Flask(__name__)
 
@@ -31,7 +33,15 @@ def index():
     df = pd.DataFrame(data)
     print(df.head())  # Debug: print the DataFrame to check its structure
 
-    fig = px.bar(df, x='name', y='score') 
+    fig = go.Figure(data=[go.Table(
+    header=dict(values=list(df.columns),
+                fill_color='paleturquoise',
+                align='left'),
+    cells=dict(values=[df.Rank, df.State, df.Postal, df.Population],
+               fill_color='lavender',
+               align='left'))
+            ])
+
 
     graph_html = fig.to_html(full_html=False)
 
@@ -53,6 +63,27 @@ def courses():
     conn.close()
 
     return render_template('courses.html', courses=course_data)
+
+@app.route('/add_student', methods=['GET', 'POST'])
+def add_student():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+
+        conn = mysql.connector.connect(**db_config)
+        cursor = conn.cursor()
+
+        cursor.execute("INSERT INTO students (name, email) VALUES (%s, %s)", 
+                       (name, email))
+        conn.commit()
+
+        cursor.close()
+        conn.close()
+
+        return redirect(url_for('index'))  # Or to another appropriate page
+
+    return render_template('add_student.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)
