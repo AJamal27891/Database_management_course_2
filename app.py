@@ -23,9 +23,9 @@ def index():
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute("SELECT name, email,phone FROM students")
+    cursor.execute("SELECT name, email, phone FROM students")
     data = cursor.fetchall()
-    
+    print(data)
     if not data:
         print("No data found in 'students' table.")
         return render_template('index.html', graph_html="No data available for visualization.")
@@ -72,16 +72,15 @@ def add_student():
         phone = request.form['phone']
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
-
-        cursor.execute("INSERT INTO students (name, email, phone) VALUES (%s, %s,%s)", 
+        print(name, email, phone)
+        cursor.execute("INSERT INTO students(name, email, phone) VALUES (%s, %s,%s)", 
                        (name, email, phone))
         conn.commit()
 
         cursor.close()
         conn.close()
 
-        return redirect(url_for('index'))  # Or to another appropriate page
-
+        return redirect(url_for('index')) 
     return render_template('add_student.html')
 
 
