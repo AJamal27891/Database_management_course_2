@@ -37,7 +37,7 @@ def index():
     header=dict(values=list(df.columns),
                 fill_color='paleturquoise',
                 align='left'),
-    cells=dict(values=[df.Rank, df.State, df.Postal, df.Population],
+    cells=dict(values=[df.name, df.email],
                fill_color='lavender',
                align='left'))
             ])

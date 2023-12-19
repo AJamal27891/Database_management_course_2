@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Courses</title>
+</head>
+<body>
+    <h1>Courses</h1>
+    {% for course in courses %}
+        <div>
+            <h2>{{ course.title }}</h2>
+            <p>{{ course.description }}</p>
+            <p>Teacher ID: {{ course.teacher_id }}</p>
+        </div>
+    {% endfor %}
+    <a href="{{ url_for('index') }}">Back to Home</a>
+</body>
+</html>
