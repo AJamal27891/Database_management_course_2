@@ -23,7 +23,7 @@ def index():
     conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute("SELECT name, email FROM students")
+    cursor.execute("SELECT name, email,phone FROM students")
     data = cursor.fetchall()
     
     if not data:
@@ -37,7 +37,7 @@ def index():
     header=dict(values=list(df.columns),
                 fill_color='paleturquoise',
                 align='left'),
-    cells=dict(values=[df.name, df.email],
+    cells=dict(values=[df.name, df.email,df.phone],
                fill_color='lavender',
                align='left'))
             ])
@@ -69,12 +69,12 @@ def add_student():
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
-
+        phone = request.form['phone']
         conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
-        cursor.execute("INSERT INTO students (name, email) VALUES (%s, %s)", 
-                       (name, email))
+        cursor.execute("INSERT INTO students (name, email, phone) VALUES (%s, %s,%s)", 
+                       (name, email, phone))
         conn.commit()
 
         cursor.close()
