@@ -4,7 +4,6 @@ import plotly.express as px
 import pandas as pd
 import configparser
 
-
 app = Flask(__name__)
 
 config = configparser.ConfigParser()
@@ -17,19 +16,22 @@ db_config = {
     'database': config['mysql']['database']
 }
 
-# Home page with visualization
 @app.route('/')
 def index():
-    conn = mysql.connector.connect(**config)
+    conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor(dictionary=True)
     
-    # Example query to fetch data for visualization
-    cursor.execute("SELECT * FROM some_table")
+    cursor.execute("SELECT name, email FROM students")
     data = cursor.fetchall()
     
-    # Convert data to DataFrame for Plotly
+    if not data:
+        print("No data found in 'students' table.")
+        return render_template('index.html', graph_html="No data available for visualization.")
+
     df = pd.DataFrame(data)
-    fig = px.bar(df, x='column1', y='column2') # Modify according to your data
+    print(df.head())  # Debug: print the DataFrame to check its structure
+
+    fig = px.bar(df, x='name', y='score') 
 
     graph_html = fig.to_html(full_html=False)
 
@@ -38,37 +40,19 @@ def index():
 
     return render_template('index.html', graph_html=graph_html)
 
-# Forum page
-@app.route('/forum')
-def forum():
-    conn = mysql.connector.connect(**config)
+# Courses page
+@app.route('/courses')
+def courses():
+    conn = mysql.connector.connect(**db_config)
     cursor = conn.cursor(dictionary=True)
     
-    cursor.execute("SELECT * FROM posts")
-    posts = cursor.fetchall()
+    cursor.execute("SELECT * FROM courses")
+    course_data = cursor.fetchall()
     
     cursor.close()
     conn.close()
 
-    return render_template('forum.html', posts=posts)
-
-# Add a new post
-@app.route('/add_post', methods=['POST'])
-def add_post():
-    title = request.form['title']
-    content = request.form['content']
-    # Add author_id, timestamp, etc. as needed
-
-    conn = mysql.connector.connect(**config)
-    cursor = conn.cursor()
-    
-    cursor.execute("INSERT INTO posts (title, content) VALUES (%s, %s)", (title, content))
-    conn.commit()
-
-    cursor.close()
-    conn.close()
-
-    return redirect(url_for('forum'))
+    return render_template('courses.html', courses=course_data)
 
 if __name__ == '__main__':
     app.run(debug=True)

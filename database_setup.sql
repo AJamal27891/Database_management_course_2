@@ -1,20 +1,20 @@
-CREATE DATABASE SchoolDB;
+CREATE DATABASE IF NOT EXISTS SchoolDB;
 
 USE SchoolDB;
 
-CREATE TABLE teachers (
+CREATE TABLE IF NOT EXISTS teachers (
     teacher_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     specialization VARCHAR(100)
 );
 
-CREATE TABLE students (
+CREATE TABLE IF NOT EXISTS students (
     student_id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
 );
 
-CREATE TABLE courses (
+CREATE TABLE IF NOT EXISTS courses (
     course_id INT AUTO_INCREMENT PRIMARY KEY,
     title VARCHAR(100) NOT NULL,
     description TEXT,
@@ -22,7 +22,7 @@ CREATE TABLE courses (
     FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id)
 );
 
-CREATE TABLE enrollments (
+CREATE TABLE IF NOT EXISTS enrollments (
     enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
     student_id INT,
     course_id INT,
