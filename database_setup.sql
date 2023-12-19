@@ -2,26 +2,25 @@ CREATE DATABASE IF NOT EXISTS SchoolDB;
 
 USE SchoolDB;
 
-
 DROP TABLE IF EXISTS enrollments;
-CREATE TABLE IF NOT EXISTS enrollments (
-    enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
-    student_id INT,
-    course_id INT,
-    FOREIGN KEY (student_id) REFERENCES students(student_id),
-    FOREIGN KEY (course_id) REFERENCES courses(course_id)
+DROP TABLE IF EXISTS courses;
+DROP TABLE IF EXISTS students;
+DROP TABLE IF EXISTS teachers;
+
+
+
+CREATE TABLE IF NOT EXISTS teachers (
+    teacher_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    specialization VARCHAR(100)
 );
 
-DROP TABLE IF EXISTS students;
 CREATE TABLE IF NOT EXISTS students (
     student_id INT AUTO_INCREMENT PRIMARY KEY,
     phone INT ,
     name VARCHAR(100) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE
 );
-
-
-DROP TABLE IF EXISTS courses;
 
 CREATE TABLE IF NOT EXISTS courses (
     course_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,13 +30,13 @@ CREATE TABLE IF NOT EXISTS courses (
     FOREIGN KEY (teacher_id) REFERENCES teachers(teacher_id)
 );
 
-DROP TABLE IF EXISTS teachers;
-CREATE TABLE IF NOT EXISTS teachers (
-    teacher_id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    specialization VARCHAR(100)
+CREATE TABLE IF NOT EXISTS enrollments (
+    enrollment_id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    course_id INT,
+    FOREIGN KEY (student_id) REFERENCES students(student_id),
+    FOREIGN KEY (course_id) REFERENCES courses(course_id)
 );
-
 
 INSERT INTO teachers (name, specialization, teacher_id) VALUES 
 ('John Doe', 'Mathematics',1),
